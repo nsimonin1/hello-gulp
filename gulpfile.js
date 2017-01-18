@@ -20,6 +20,8 @@ var cache=require('gulp-cache');
 
 var del=require('del');
 
+var changed=require('gulp-changed');
+
 var runSequence=require('run-sequence');
 
 
@@ -42,11 +44,14 @@ gulp.task('browserSync',function(){
 });
 
 gulp.task('images',function(){
-    return gulp.src('app/images/**/*.+(png|jpg|gif|svg)')
+    var pathImg='app/images/**/*.+(png|jpg|gif|svg)';
+    var pathImgDest='dist/images';
+    return gulp.src(pathImg)
+            .pipe(changed(pathImgDest))
             .pipe(cache(imagemin({
                 interlaced: true
             })))
-            .pipe(gulp.dest('dist/images'));
+            .pipe(gulp.dest(pathImgDest));
 });
 
 
